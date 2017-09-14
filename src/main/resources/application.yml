@@ -1,0 +1,14 @@
+server:
+ port: 5555
+ compression:
+   enabled: true
+   mime-types: application/json,application/xml
+
+logging:
+  level:
+    org.springframework.web: ERROR
+  pattern:
+    console: "%d{dd-MM-yyyy HH:mm:ss} - %msg%n"
+    file: "%d{dd-MM-yyyy HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n"
+  file: /solinftec/log/alfred-api/log-file.log
+
