@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MachineRepository extends MongoCrud {
     public MachineRepository(String collection, Class clazz) {
@@ -32,23 +33,35 @@ public class MachineRepository extends MongoCrud {
     }
 
 
-    Machine machine = null;
-    public Machine findByApplicationIdAndBranchName(String applicationId, String branchName) {
-        Document query = new Document();
-        query.append("branch", branchName);
-        List<Machine> machines = super.read( query, new Document(), 0);
+
+    List<Machine> machines = new ArrayList<Machine>();
+
+    public List<Machine> findByApplicationIdAndBranchName(String applicationId, String branchName) {
+        List<Machine> allMachines = this.findAll();
+        List<Machine> filterMachines = new ArrayList<Machine>();
+        allMachines.forEach(item ->
+        {
+            item.branchs
+                    .stream()
+                    .forEach(c -> System.out.println(c));
+
+            long branchs = item.branchs
+                               .stream()
+                               .filter(c -> c.equals(branchName))
+                               .count();
+            if (branchs>0)
+            {
+                machines.add(item);
+            }
+        });
 
         if (machines != null && machines.size() > 0)
         {
-             machines.forEach(item ->
-             {
-                if(item.applications.contains(applicationId))
-                {
-                    machine = item;
-                }
-             });
+            filterMachines  =     machines.stream()
+                                          .filter(item -> item.applications.contains(applicationId))
+                                          .collect(Collectors.toList());
         }
-        return machine;
+        return filterMachines;
     }
 
 
@@ -71,7 +84,7 @@ public class MachineRepository extends MongoCrud {
         try
         {
             List<Machine> machines = (List<Machine>) super.readAll();
-            machines.forEach(Machine::tratesForResponse);
+            machines.forEach(Machine::treatsForResponse);
             return machines;
         }
         catch (Exception e)

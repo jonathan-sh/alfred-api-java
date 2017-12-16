@@ -1,9 +1,9 @@
 package com.alfred.api.app.model.implementatios;
 
-import com.alfred.api.app.dto.Bob;
+import com.alfred.api.app.model.Bob;
 import com.alfred.api.app.model.Build;
 import com.alfred.api.app.model.interfaces.BobBuilder;
-import com.alfred.api.util.mongo.MongoHelper;
+import com.alfred.api.useful.mongo.MongoHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,13 +15,16 @@ import java.util.ArrayList;
 public class BobBuilderImpl implements BobBuilder {
     private static Logger log = LoggerFactory.getLogger(BobBuilderImpl.class);
     private Build buildInProcess;
+    private StringBuilder buildLog;
 
     @Override
     public void build(Build buildInProcess) {
         this.buildInProcess = buildInProcess;
         try
         {
+            buildLog = new StringBuilder();
             throwBuild();
+            saveAndSendReport();
         }
         catch (Exception e)
         {
@@ -30,9 +33,15 @@ public class BobBuilderImpl implements BobBuilder {
 
     }
 
+    private void saveAndSendReport() {
+        buildInProcess.log =buildLog.toString();
+        buildInProcess.status = null;
+        buildInProcess.update();
+    }
+
 
     private static final String SSH = "sudo ssh -i /home/ubuntu/.ssh/key.pem ubuntu@";
-    private static final String SOLINFUP = "~/scripts-infra/solinfup/make-updade.sh";
+    private static final String SOLINFUP = "~/scripts-infra/solinfup/make-update.sh";
     private void throwBuild() throws IOException {
 
 
@@ -52,7 +61,9 @@ public class BobBuilderImpl implements BobBuilder {
                 .append(MongoHelper.treatsId(this.buildInProcess._id))
                 .append("' ");
 
-        new Bob(buildInProcess.start,command.toString()).save();
+        new Bob(buildInProcess.start,
+                command.toString(),
+                MongoHelper.treatsId(this.buildInProcess._id)).save();
 
         this.executeCommand(command.toString());
     }
@@ -78,6 +89,7 @@ public class BobBuilderImpl implements BobBuilder {
             while ((line = br.readLine()) != null)
             {
                 log.info(line);
+                buildLog.append(line).append(":;:");
             }
 
 

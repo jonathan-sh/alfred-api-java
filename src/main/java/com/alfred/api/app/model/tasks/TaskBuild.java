@@ -22,7 +22,7 @@ public class TaskBuild {
     /**
      * Variával que controla o intervalo de tempo, aonde 60000 equivale a um minuto.
      */
-    private final String INTERVALO_DE_TEMPO = "60000";
+    private final String INTERVALO_DE_TEMPO = "5000";
 
     /**
      * Rotina de verificação para fechamneto de jornada;

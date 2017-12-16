@@ -2,8 +2,8 @@ package com.alfred.api.app.model;
 
 import com.alfred.api.app.dao.ProfileRepository;
 import com.alfred.api.app.dto.Validation;
-import com.alfred.api.util.encryptions.EncryptionSHA;
-import com.alfred.api.util.mongo.MongoHelper;
+import com.alfred.api.useful.encryptions.EncryptionSHA;
+import com.alfred.api.useful.mongo.MongoHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,7 +39,7 @@ public class Profile {
                           this.validControllers();
         if (!promise)
         {
-            validation.fieldsError(isRequered());
+            validation.fieldsError(isRequired());
         }
         else
         {
@@ -62,12 +62,16 @@ public class Profile {
 
     public Profile validForUpdate() {
         Boolean promise = this.validId() &&
-                this.validName() &&
-                this.validEmail() &&
-                this.validControllers();
+                          this.validName() &&
+                          this.validEmail() &&
+                          this.validControllers();
         if (!promise)
         {
-            validation.fieldsError(isRequered() + "and id");
+            validation.fieldsError(isRequired() + "and id");
+        }
+        if (validPassword())
+        {
+            this.password = EncryptionSHA.generateHash(this.password);
         }
         return this;
     }
@@ -88,11 +92,16 @@ public class Profile {
         return this.status != null && this.adminLevel != null;
     }
 
-    private String isRequered() {
+    private Boolean validPassword()  {
+        return this.password != null && !this.password.isEmpty();
+    }
+
+
+    private String isRequired() {
         return "<name, email, adminLevel, status>";
     }
 
-    public Profile tratesForResponse() {
+    public Profile treatsForResponse() {
         this._id = MongoHelper.treatsId(this._id);
         return this;
     }

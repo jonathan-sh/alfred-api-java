@@ -6,12 +6,13 @@ import com.alfred.api.app.model.Build;
 import com.alfred.api.app.model.Machine;
 import com.alfred.api.app.model.interfaces.BobBuilder;
 import com.alfred.api.app.model.interfaces.Processor;
-import com.alfred.api.util.constants.BuildStatus;
-import com.alfred.api.util.mongo.MongoHelper;
+import com.alfred.api.useful.constants.BuildStatus;
+import com.alfred.api.useful.mongo.MongoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ProcessorImpl implements Processor {
@@ -78,7 +79,7 @@ public class ProcessorImpl implements Processor {
     private boolean isSameApplication(Build build) {
        String idbBuildInProcess = MongoHelper.treatsId(this.buildInProcess.application._id);
        String idToCheck = MongoHelper.treatsId(build.application._id);
-       return idbBuildInProcess.equals(idToCheck);
+       return Objects.equals(idbBuildInProcess, idToCheck);
     }
 
 

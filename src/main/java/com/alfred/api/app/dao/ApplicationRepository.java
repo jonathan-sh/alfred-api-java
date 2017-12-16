@@ -41,7 +41,7 @@ public class ApplicationRepository extends MongoCrud {
             Document sort = new Document();
             query.append("status", true);
             List<Application> applications = (List<Application>) super.read(query, sort, 0);
-            applications.forEach(Application::tratesForResponse);
+            applications.forEach(Application::treatsForResponse);
             return applications;
         }
         catch (Exception e)
@@ -58,7 +58,7 @@ public class ApplicationRepository extends MongoCrud {
             Document query = new Document();
             Document sort = new Document();
             List<Application> applications = (List<Application>) super.read(query, sort, 0);
-            applications.forEach(Application::tratesForResponse);
+            applications.forEach(Application::treatsForResponse);
             return applications;
         }
         catch (Exception e)

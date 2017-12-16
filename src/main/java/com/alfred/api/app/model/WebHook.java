@@ -6,18 +6,21 @@ import com.alfred.api.app.dao.WebHookRepository;
 import com.alfred.api.app.dto.HeadCommit;
 import com.alfred.api.app.dto.Pusher;
 import com.alfred.api.app.dto.Repository;
-import com.alfred.api.util.treats.TreatsValue;
-import com.alfred.api.util.constants.DetailsDescription;
-import com.alfred.api.util.mongo.MongoHelper;
+import com.alfred.api.useful.constants.DetailsDescription;
+import com.alfred.api.useful.mongo.MongoHelper;
+import com.alfred.api.useful.treats.DateTimeUTC;
+import com.alfred.api.useful.treats.TreatsValue;
 import com.google.gson.annotations.Expose;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class WebHook {
+
 
     public WebHook() {
         this.isValid = true;
@@ -28,6 +31,8 @@ public class WebHook {
     public Object _id;
     @Expose
     public String ref;
+    @Expose
+    public String after;
     @Expose
     public Pusher pusher;
     @Expose
@@ -49,6 +54,9 @@ public class WebHook {
     @Expose
     public String branch;
 
+    public long order;
+    @Expose
+    public List<Machine> machines = new ArrayList<>();
 
     public LocalDateTime localDateTime;
 
@@ -57,20 +65,17 @@ public class WebHook {
     private final String REFS = "refs/heads/";
 
     public void setRef(String ref) {
-        this.localDateTime = LocalDateTime.now();
+        this.localDateTime = DateTimeUTC.now();
         this.dateTime = TreatsValue.toIntegerArrayFromLocalDateTime(this.localDateTime);
         TreatsValue.nullOrEmpty(ref);
         this.ref = ref.replace(this.REFS, "");
         this.branch = ref.replace(this.REFS, "");
     }
 
-
     public WebHook setEvent(String event) {
         this.event = (event != null) ? event.replace("event-", "") : event;
         return this;
     }
-
-
 
     public WebHook validEvent() {
 
@@ -116,9 +121,9 @@ public class WebHook {
 
         if (this.isValid)
         {
-            this.machine = machineRepository
-                          .findByApplicationIdAndBranchName(MongoHelper.treatsId(application._id),this.branch);
-            if (machine == null)
+            this.machines = machineRepository
+                           .findByApplicationIdAndBranchName(MongoHelper.treatsId(application._id),this.branch);
+            if (machines.size() == 0)
             {
                 this.isValid = false;
                 this.details = DetailsDescription.NOT_CONTAINS_VALID_MACHINE.get();
@@ -128,7 +133,6 @@ public class WebHook {
         return this;
     }
 
-
     private final static String COLLECTION = "webhook";
     private final static WebHookRepository webHookRepository = new WebHookRepository(WebHook.COLLECTION, WebHook.class);
     private final static ApplicationRepository applicationRepository = new ApplicationRepository(Application.COLLECTION, Application.class);
@@ -137,13 +141,21 @@ public class WebHook {
     public void save() {
         if (this.isValid)
         {
-            new Build(this).save();
+            this.machines.forEach(server ->
+            {
+                this.machine = server;
+                Build build = new Build(this);
+                build.save();
+                build.sendSlackStatus();
+            });
+
         }
         webHookRepository.create(this);
     }
 
-    public WebHook tratesForResponse() {
+    public WebHook treatsForResponse() {
         this._id = MongoHelper.treatsId(this._id);
+        this.order = TreatsValue.getLogFromArrayDateTime(this.dateTime);
         return this;
     }
 

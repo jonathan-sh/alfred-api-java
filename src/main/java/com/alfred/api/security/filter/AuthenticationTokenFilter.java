@@ -1,7 +1,7 @@
 package com.alfred.api.security.filter;
 
-import com.alfred.api.util.constants.App;
-import com.alfred.api.util.token.TokenUtils;
+import com.alfred.api.useful.constants.App;
+import com.alfred.api.useful.token.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

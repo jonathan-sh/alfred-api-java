@@ -1,7 +1,7 @@
 package com.alfred.api.app.dto;
 
-import com.alfred.api.util.constants.CauseDescription;
-import com.alfred.api.util.constants.DetailsDescription;
+import com.alfred.api.useful.constants.CauseDescription;
+import com.alfred.api.useful.constants.DetailsDescription;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.http.HttpStatus;
 

@@ -2,10 +2,10 @@ package com.alfred.api.security.model;
 
 import com.alfred.api.app.dao.ProfileRepository;
 import com.alfred.api.app.model.Profile;
-import com.alfred.api.util.constants.DetailsDescription;
-import com.alfred.api.util.encryptions.EncryptionSHA;
-import com.alfred.api.util.mongo.MongoHelper;
-import com.alfred.api.util.token.TokenUtils;
+import com.alfred.api.useful.constants.DetailsDescription;
+import com.alfred.api.useful.encryptions.EncryptionSHA;
+import com.alfred.api.useful.mongo.MongoHelper;
+import com.alfred.api.useful.token.TokenUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import org.slf4j.Logger;

@@ -12,3 +12,11 @@ logging:
     file: "%d{dd-MM-yyyy HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n"
   file: /solinftec/log/alfred-api/log-file.log
 
+client:
+   front-url: "https://alfred.saas-solinftec.com/alfred"
+
+slack:
+   msg-url: "https://hooks.slack.com/services/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"
+   msg-url-test: "https://hooks.slack.com/services/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"
+configuration:
+   utc: -2

@@ -20,19 +20,18 @@ public class MachineResource {
         return new ResponseEntity<>(this.machine.findAll(), HttpStatus.OK);
     }
 
-
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Machine machine) {
         this.machine = machine.validForCreate()
-                .validExistence()
-                .create();
+                              .validExistence()
+                              .create();
         return makeResponse();
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Object> update(@RequestBody Machine machine) {
         this.machine = machine.validForUpdate()
-                .update();
+                              .update();
         return makeResponse();
     }
 

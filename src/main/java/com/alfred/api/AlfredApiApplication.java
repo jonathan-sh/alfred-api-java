@@ -13,4 +13,8 @@ public class AlfredApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(AlfredApiApplication.class, args);
     }
+
+
+
 }
+

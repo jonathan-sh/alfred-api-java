@@ -1,9 +1,10 @@
-package com.alfred.api.util.treats;
+package com.alfred.api.useful.treats;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class TreatsValue {
     private static Logger log = LoggerFactory.getLogger(TreatsValue.class);
@@ -31,6 +32,36 @@ public class TreatsValue {
 
     public static LocalDateTime toLocalDateTimeFromArrayInteger(Integer[] start) {
         return LocalDateTime.of(start[0],start[1],start[2],start[3],start[4],start[5]);
+    }
+
+    public static Long getLogFromArrayDateTime(Integer[] dateTime)
+    {
+        try
+        {
+            return toLocalDateTimeFromArrayInteger(dateTime).atZone(ZoneId.systemDefault())
+                                                            .toInstant()
+                                                            .toEpochMilli();
+        }
+        catch (Exception e)
+        {
+
+        }
+        return  0L;
+    }
+
+    public static Long getLogFromLocalDateTime(LocalDateTime localDateTime)
+    {
+        try
+        {
+            return localDateTime.atZone(ZoneId.systemDefault())
+                                .toInstant()
+                                .toEpochMilli();
+        }
+        catch (Exception e)
+        {
+
+        }
+        return  0L;
     }
 }
 

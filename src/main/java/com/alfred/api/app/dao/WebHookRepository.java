@@ -22,7 +22,7 @@ public class WebHookRepository extends MongoCrud {
             Document querySort = new Document();
             querySort.put("_id",-1);
             List<WebHook> webHooks = (List<WebHook>) super.readAll(querySort);
-            webHooks.forEach(WebHook::tratesForResponse);
+            webHooks.forEach(WebHook::treatsForResponse);
             return webHooks;
         }
         catch (Exception e)

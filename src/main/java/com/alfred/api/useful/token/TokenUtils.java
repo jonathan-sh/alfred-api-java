@@ -1,4 +1,4 @@
-package com.alfred.api.util.token;
+package com.alfred.api.useful.token;
 
 
 import com.alfred.api.security.model.Login;

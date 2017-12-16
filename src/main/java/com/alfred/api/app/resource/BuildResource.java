@@ -1,7 +1,7 @@
 package com.alfred.api.app.resource;
 
 import com.alfred.api.app.model.Build;
-import com.alfred.api.util.constants.BuildStatus;
+import com.alfred.api.useful.constants.BuildStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +16,10 @@ public class BuildResource {
 
     private Build build = new Build();
 
+    public BuildResource() {
+
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Object> findAll() {
         return new ResponseEntity<>(this.build.findAll(), HttpStatus.OK);
@@ -28,18 +32,17 @@ public class BuildResource {
 
     @RequestMapping(path = "/status", method = RequestMethod.POST)
     public void status(@RequestBody Build build) {
-        if (build!=null && build._id!=null)
+        if (build!=null && build._id!=null && !build._id.toString().isEmpty())
         {
             if (build.status.equals("true"))
             {
-                build.updateStatus(BuildStatus.SUCESS);
+                build.updateStatus(BuildStatus.SUCCESS);
             }
             else
             {
                 build.updateStatus(BuildStatus.FAIL);
             }
         }
-
     }
 
 }

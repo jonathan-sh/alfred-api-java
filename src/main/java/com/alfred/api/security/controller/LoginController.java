@@ -3,8 +3,8 @@ package com.alfred.api.security.controller;
 import com.alfred.api.app.model.Profile;
 import com.alfred.api.security.model.Login;
 import com.alfred.api.security.model.SpringSecurityUser;
-import com.alfred.api.util.constants.App;
-import com.alfred.api.util.token.TokenUtils;
+import com.alfred.api.useful.constants.App;
+import com.alfred.api.useful.token.TokenUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +58,6 @@ public class LoginController {
         String username = this.tokenUtils.getUsernameFromToken(token);
         SpringSecurityUser user = (SpringSecurityUser) getUserDetails(username);
 
-
         if (checkIfCanTokenBeRefreshed(token, user))
         {
 
@@ -68,8 +67,6 @@ public class LoginController {
         {
             return ResponseEntity.badRequest().body(null);
         }
-
-
     }
 
 

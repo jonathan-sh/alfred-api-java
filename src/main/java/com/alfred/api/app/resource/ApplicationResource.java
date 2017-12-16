@@ -1,7 +1,6 @@
 package com.alfred.api.app.resource;
 
 import com.alfred.api.app.model.Application;
-import com.alfred.api.app.model.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;

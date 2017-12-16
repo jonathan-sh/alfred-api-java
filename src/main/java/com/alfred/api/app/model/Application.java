@@ -2,7 +2,7 @@ package com.alfred.api.app.model;
 
 import com.alfred.api.app.dao.ApplicationRepository;
 import com.alfred.api.app.dto.Validation;
-import com.alfred.api.util.mongo.MongoHelper;
+import com.alfred.api.useful.mongo.MongoHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
@@ -50,7 +50,6 @@ public class Application {
     public static String COLLECTION = "application";
     private static ApplicationRepository applicationRepository = new ApplicationRepository(Application.COLLECTION, Application.class);
 
-
     public Application create() {
         if (validation.status)
         {
@@ -73,7 +72,7 @@ public class Application {
         return this;
     }
 
-    public Application tratesForResponse() {
+    public Application treatsForResponse() {
         this._id = MongoHelper.treatsId(this._id);
         return this;
     }

@@ -5,7 +5,7 @@ package com.alfred.api.security.service;
 import com.alfred.api.app.dao.ProfileRepository;
 import com.alfred.api.app.model.Profile;
 import com.alfred.api.security.model.SpringSecurityUser;
-import com.alfred.api.util.mongo.MongoHelper;
+import com.alfred.api.useful.mongo.MongoHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.authority.AuthorityUtils;

@@ -1,4 +1,4 @@
-package com.alfred.api.util.constants;
+package com.alfred.api.useful.constants;
 
 /**
  * Created by jonathan on 7/15/17.

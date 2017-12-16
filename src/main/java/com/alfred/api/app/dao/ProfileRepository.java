@@ -38,7 +38,7 @@ public class ProfileRepository extends MongoCrud {
         try
         {
             List<Profile> profiles = (List<Profile>) super.readAll();
-            profiles.forEach(Profile::tratesForResponse);
+            profiles.forEach(Profile::treatsForResponse);
             return profiles;
         }
         catch (Exception e)

@@ -24,15 +24,15 @@ public class ProfileResource {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Profile profile) {
         this.profile = profile.validForCreate()
-                .validExistence()
-                .create();
+                              .validExistence()
+                              .create();
         return makeResponse();
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Object> update(@RequestBody Profile profile) {
         this.profile = profile.validForUpdate()
-                .update();
+                              .update();
         return makeResponse();
     }
 
@@ -41,7 +41,6 @@ public class ProfileResource {
         this.profile = profile.delete();
         return makeResponse();
     }
-
 
     private ResponseEntity<Object> makeResponse() {
         if (this.profile.validation.status)

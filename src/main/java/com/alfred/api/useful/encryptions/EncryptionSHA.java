@@ -1,4 +1,4 @@
-package com.alfred.api.util.encryptions;
+package com.alfred.api.useful.encryptions;
 
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 
