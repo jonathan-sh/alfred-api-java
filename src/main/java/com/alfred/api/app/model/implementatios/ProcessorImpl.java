@@ -7,6 +7,7 @@ import com.alfred.api.app.model.Machine;
 import com.alfred.api.app.model.interfaces.BobBuilder;
 import com.alfred.api.app.model.interfaces.Processor;
 import com.alfred.api.util.constants.BuildStatus;
+import com.alfred.api.util.mongo.MongoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -69,10 +70,16 @@ public class ProcessorImpl implements Processor {
 
     private void discardOldBuild() {
          this.pendings.remove(this.buildInProcess);
-         this.pendings.forEach(Build::discard);
+         this.pendings.stream()
+                      .filter(this::isSameApplication)
+                      .forEach(Build::discard);
     }
 
-
+    private boolean isSameApplication(Build build) {
+       String idbBuildInProcess = MongoHelper.treatsId(this.buildInProcess.application._id);
+       String idToCheck = MongoHelper.treatsId(build.application._id);
+       return idbBuildInProcess.equals(idToCheck);
+    }
 
 
 }
