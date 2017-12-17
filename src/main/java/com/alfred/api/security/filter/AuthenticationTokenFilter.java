@@ -41,7 +41,9 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
         resp.setHeader("Access-Control-Allow-Credentials", "true");
         resp.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE,");
         resp.setHeader("Access-Control-Max-Age", "3600");
-        resp.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, Content-Encoding, " + App.TOKEN_HEADER);
+        resp.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, Content-Encoding, "
+                + App.TOKEN_HEADER +", "
+                + App.TOKEN_EVENT_GIT);
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader(App.TOKEN_HEADER);

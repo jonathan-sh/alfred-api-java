@@ -24,7 +24,7 @@ public class Login {
     public String email;
     @Expose
     public String token;
-
+    public String name;
     public Login() {
     }
 
@@ -75,6 +75,7 @@ public class Login {
         {
             Profile profile  = profileRepository.findByEmail(this.email);
             this._id = MongoHelper.treatsId(profile._id);
+            this.name = profile.name;
             this.password = DetailsDescription.PASSWORD.get();
             this.token = tokenUtils.generateToken(this);
             return this;

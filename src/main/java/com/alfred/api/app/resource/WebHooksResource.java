@@ -1,19 +1,23 @@
 package com.alfred.api.app.resource;
 
 import com.alfred.api.app.model.WebHook;
+import com.alfred.api.useful.constants.App;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/web-hook")
+@Scope("request")
 public class WebHooksResource {
 
-    private static final String EVENT = "X-GitHub-Event";
-
     @RequestMapping(method = RequestMethod.POST)
-    public void webhooks(@RequestHeader(EVENT) String event,
-                         @RequestBody WebHook webHook) {
+    public Object webhooks(@RequestHeader(App.TOKEN_EVENT_GIT) String event,
+                           @RequestBody WebHook webHook) {
 
         webHook.setEvent(event)
                .validEvent()
@@ -21,6 +25,10 @@ public class WebHooksResource {
                .validApplication()
                .validMachine()
                .save();
+
+        Map<String,String> map = new HashMap<>();
+        map.put("status","ok");
+        return map;
     }
 
 

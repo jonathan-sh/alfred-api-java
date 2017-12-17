@@ -81,7 +81,7 @@ public class WebHook {
 
         if (this.isValid)
         {
-            if (this.event == null || !this.event.equals("push"))
+            if (this.event == null && (this.event.equals("push") || this.event.equals("manual-build")))
             {
                 this.isValid = false;
                 this.details = DetailsDescription.NOT_PUSH.get();
